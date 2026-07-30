@@ -1,10 +1,17 @@
 ## Dotfiles BSPWM
 
+A fully customized BSPWM desktop environment and auto-installer designed for **Debian-based distributions running X11**. 
+
+While specifically tailored and optimized for penetration testing distros like **Parrot OS** and **Kali Linux**, this setup can easily be adapted for any other Debian-based distribution running an X11 display server with minimal tweaks.
+
+## Table of Contents
+
 - [Install](#install)
 - [Themes](#themes)
-- [Polybars](#Polybars)
-- [EWW]($EWW)
-- [ShorCuts](#Shorcuts)
+- [Bars](#bars)
+- [Keybindings](#shortcuts)
+- [Api Keys](#apikey)
+- [Virtual Machine Setup](#tips)
 
 ---
 
@@ -18,7 +25,7 @@ git clone https://github.com/MF-Rayo/Dotfiles-BSPWM.git
 ```
 
 ```bash
-cd Dotfiles-BSPWM &&  chmod +x ./Installer.sh
+cd Dotfiles-BSPWM && chmod +x Installer.sh
 ```
 
 ```bash
@@ -28,13 +35,14 @@ cd Dotfiles-BSPWM &&  chmod +x ./Installer.sh
 ---
 
 <a name="themes"></a>
-## Available Themes
+## Themes
 
 Here are the built-in color schemes included in this configuration:
 
 | Theme | Preview |
 | :---: | :--- |
 | **Nord** | <img width="1917" height="875" alt="Image" src="https://github.com/user-attachments/assets/3c526f3a-5b0c-4be7-83d1-3408e15701a7" /> |
+| **Purple** | <img width="1915" height="856" alt="Image" src="https://github.com/user-attachments/assets/d4fcf6de-c3c5-4a17-8517-fe21928cc02d" /> |
 | **Green** | <img width="1911" height="855" alt="Image" src="https://github.com/user-attachments/assets/a6946ff2-e309-4b8a-87ad-ec7ee173f8ca" /> |
 | **Yellow** | <img width="1913" height="871" alt="Image" src="https://github.com/user-attachments/assets/b17c9ad7-a70b-457e-afc3-a6221ec01e36" /> |
 | **Blue** | <img width="1912" height="872" alt="Image" src="https://github.com/user-attachments/assets/42464cae-4455-42b7-838e-f5596235c4d1" /> |
@@ -43,11 +51,38 @@ Here are the built-in color schemes included in this configuration:
 | **White** | <img width="1917" height="876" alt="Image" src="https://github.com/user-attachments/assets/c2efdb6a-1938-47f5-b197-a133fe735402" /> |
 | **ZeroColor** | <img width="1913" height="875" alt="Image" src="https://github.com/user-attachments/assets/2951f0da-cebc-4211-a539-756fbab0b81e" /> |
 
-## Demo
+### Demo
 
 <video width="100%" height="auto" src="https://github.com/user-attachments/assets/66e23de6-dd6f-401b-9d77-880d7111c642"></video>
 ---
 
+<a name="bars"></a>
+## Bars
+
+This setup offers modular status bars powered by **Polybar** and **EWW (ElKowar's Wacky Widgets)** to display key system info, workspace indicators, and system metrics. 
+
+Both configurations are highly customizable, allowing you to add, edit, or remove widgets according to your preferences.
+
+---
+
+### Polybar
+Polybar handles the main top/bottom panel with multiple theme layouts.
+* **Configuration Path:** `~/.config/polybar/themes/`
+* **Selector:** Use `Super` + `Ctrl` + `p` to open the launcher and switch Polybar styles on the fly.
+
+---
+
+### EWW (ElKowar's Wacky Widgets)
+EWW is used for modern, stand-alone widgets and custom desktop popups.
+* **Configuration Path:** `~/.config/eww/`
+
+---
+
+<img width="1917" height="1078" alt="Image" src="https://github.com/user-attachments/assets/341c9286-78d1-40b5-bdb1-96552d52c35c" />
+
+---
+
+<a name="apikey"></a>
 ### API Keys Configuration (Optional)
 
 To enable integration with **OpenWeather** (for weather widgets) and **Wallhaven** (for downloading wallpapers), you need to provide your own API keys.
@@ -63,7 +98,7 @@ To enable integration with **OpenWeather** (for weather widgets) and **Wallhaven
 nvim ~/.config/theme/config.json
 ```
 
-```bash
+```json
 {
   "theme": "White",
   "polybar": "Cuts",
@@ -81,16 +116,13 @@ nvim ~/.config/theme/config.json
   "city": "YOUR_CITY_NAME"
 }
 ```
+---
 
-
+<a name="shortcuts"></a>
 # Keybindings & Shortcuts 
 ---
 
 This guide lists all configured keybindings managed by `sxhkd` for **BSPWM** and system shortcuts.
-
-> **Note:** `Super` refers to the **Windows / Command** key.
-
----
 
 ### Applications & Custom Scripts
 
@@ -170,3 +202,17 @@ This guide lists all configured keybindings managed by `sxhkd` for **BSPWM** and
 | `XF86AudioNext` | `playerctl next` | Next Track |
 | `XF86AudioPrev` | `playerctl previous` | Previous Track |
 | `XF86AudioPlay` | `playerctl play-pause` | Play / Pause |
+
+<a name="tips"></a>
+## Virtual Machine Setup
+
+If you are running this environment inside a Virtual Machine, you may experience performance issues, graphical glitches, or lag with window animations. 
+
+To ensure smooth performance:
+
+* **Enable 3D Acceleration:** Make sure **3D Display Acceleration** is enabled in your VM settings.
+* **Allocate Dedicated Video Memory (VRAM):** Assign at least **256 MB - 512 MB** of VRAM to the virtual graphics adapter.
+
+>  **Note for VMware users:** Go to **Virtual Machine Settings** ➔ **Display** ➔ Check **Accelerate 3D graphics** and increase the **Graphics Memory** slider.
+
+<img width="986" height="422" alt="Image" src="https://github.com/user-attachments/assets/2717b6a1-8084-4a35-acd3-b52b150dc77b" />
