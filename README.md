@@ -15,6 +15,30 @@ While specifically tailored and optimized for penetration testing distros like *
 
 ---
 
+## Credits & External Resources
+
+This project integrates tools, configurations, and inspiration from several open-source repositories. Visit the original projects below to learn more about their setup and inner workings:
+
+### Base Inspiration & Configurations
+* **[gh0stzk/dotfiles](https://github.com/gh0stzk/dotfiles):** Primary inspiration for adapting the **Polybar** and **EWW** configurations, as well as the design architecture for the theme, wallpaper, and bar selectors.
+* **[adi1090x/polybar-themes](https://github.com/adi1090x/polybar-themes):** Source for various Polybar layouts and theme designs.
+* **[adi1090x/rofi](https://github.com/adi1090x/rofi):** Source for Rofi themes and menu styles.
+
+---
+
+### Core Tools & Dependencies
+* **[polybar/polybar](https://github.com/polybar/polybar):** Fast and easy-to-use status bar.
+* **[elkowar/eww](https://github.com/elkowar/eww):** ElKowar's Wacky Widgets for custom desktop popups and widgets.
+* **[yshui/picom](https://github.com/yshui/picom):** X compositor for transparency, animations, and shadows.
+* **[karlstav/cava](https://github.com/karlstav/cava):** Console-based Audio Visualizer for ALSA / PulseAudio / PipeWire.
+* **[ujjwal96/xwinwrap](https://github.com/ujjwal96/xwinwrap):** Utility to allow applications/animated wallpapers as desktop backgrounds.
+* **[Raymo111/i3lock-color](https://github.com/Raymo111/i3lock-color):** Feature-rich screen locker with customization support.
+* **[vinceliuice/Qogir-icon-theme](https://github.com/vinceliuice/Qogir-icon-theme):** Modern icon theme for Linux desktops.
+* **[romkatv/powerlevel10k](https://github.com/romkatv/powerlevel10k):** Fast and feature-packed Zsh theme (configured for both standard users and root).
+* **[akinomyoga/ble.sh](https://github.com/akinomyoga/ble.sh):** Bash Line Editor for syntax highlighting and enhanced autocompletion.
+
+---
+
 <a name="install"></a>
 ## Installation & Setup
 
@@ -40,16 +64,16 @@ cd Dotfiles-BSPWM && chmod +x Installer.sh
 Here are the built-in color schemes included in this configuration:
 
 | Theme | Preview |
-| :---: | :--- |
-| **Nord** | <img width="1917" height="875" alt="Image" src="https://github.com/user-attachments/assets/3c526f3a-5b0c-4be7-83d1-3408e15701a7" /> |
-| **Purple** | <img width="1915" height="856" alt="Image" src="https://github.com/user-attachments/assets/d4fcf6de-c3c5-4a17-8517-fe21928cc02d" /> |
-| **Green** | <img width="1911" height="855" alt="Image" src="https://github.com/user-attachments/assets/a6946ff2-e309-4b8a-87ad-ec7ee173f8ca" /> |
-| **Yellow** | <img width="1913" height="871" alt="Image" src="https://github.com/user-attachments/assets/b17c9ad7-a70b-457e-afc3-a6221ec01e36" /> |
-| **Blue** | <img width="1912" height="872" alt="Image" src="https://github.com/user-attachments/assets/42464cae-4455-42b7-838e-f5596235c4d1" /> |
-| **Red** | <img width="1915" height="867" alt="Image" src="https://github.com/user-attachments/assets/c1b06c3e-1693-4c1f-a45a-8a9d8e7748c5" /> |
-| **Black** | <img width="1910" height="860" alt="Image" src="https://github.com/user-attachments/assets/6d361bcf-f106-48b6-9f56-18c10bff6a81" /> |
-| **White** | <img width="1917" height="876" alt="Image" src="https://github.com/user-attachments/assets/c2efdb6a-1938-47f5-b197-a133fe735402" /> |
-| **ZeroColor** | <img width="1913" height="875" alt="Image" src="https://github.com/user-attachments/assets/2951f0da-cebc-4211-a539-756fbab0b81e" /> |
+| :---: | :---: |
+| **Nord** <br> <img width="100%" alt="Nord Theme" src="https://github.com/user-attachments/assets/3c526f3a-5b0c-4be7-83d1-3408e15701a7" /> |
+| **Purple** <br> <img width="100%" alt="Purple Theme" src="https://github.com/user-attachments/assets/d4fcf6de-c3c5-4a17-8517-fe21928cc02d" /> |
+| **Green** <br> <img width="100%" alt="Green Theme" src="https://github.com/user-attachments/assets/a6946ff2-e309-4b8a-87ad-ec7ee173f8ca" /> |
+| **Yellow** <br> <img width="100%" alt="Yellow Theme" src="https://github.com/user-attachments/assets/b17c9ad7-a70b-457e-afc3-a6221ec01e36" /> |
+| **Blue** <br> <img width="100%" alt="Blue Theme" src="https://github.com/user-attachments/assets/42464cae-4455-42b7-838e-f5596235c4d1" /> |
+| **Red** <br> <img width="100%" alt="Red Theme" src="https://github.com/user-attachments/assets/c1b06c3e-1693-4c1f-a45a-8a9d8e7748c5" /> |
+| **Black** <br> <img width="100%" alt="Black Theme" src="https://github.com/user-attachments/assets/6d361bcf-f106-48b6-9f56-18c10bff6a81" /> |
+| **White** <br> <img width="100%" alt="White Theme" src="https://github.com/user-attachments/assets/c2efdb6a-1938-47f5-b197-a133fe735402" /> |
+| **ZeroColor** <br> <img width="100%" alt="ZeroColor Theme" src="https://github.com/user-attachments/assets/2951f0da-cebc-4211-a539-756fbab0b81e" /> |
 
 ### Demo
 
@@ -209,8 +233,8 @@ This guide lists all configured keybindings managed by `sxhkd` for **BSPWM** and
 
 If you are running this environment inside a Virtual Machine, you may experience performance issues, graphical glitches, or lag with window animations. 
 
-> [!NOTE] Note for VMware users:
-> Go to **Virtual Machine Settings** ➔ **Display** ➔ Check **Accelerate 3D graphics** and increase the **Graphics Memory** slider.
+> [!NOTE]
+> **Note for VMware users:** Go to **Virtual Machine Settings** ➔ **Display** ➔ Check **Accelerate 3D graphics** and increase the **Graphics Memory** slider.
 
 <img width="986" height="422" alt="Image" src="https://github.com/user-attachments/assets/2717b6a1-8084-4a35-acd3-b52b150dc77b" />
 
