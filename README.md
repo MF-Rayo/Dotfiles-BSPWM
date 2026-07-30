@@ -63,7 +63,6 @@ cd Dotfiles-BSPWM && chmod +x Installer.sh
 
 Here are the built-in color schemes included in this configuration:
 
-| Theme | Preview |
 | :---: | :---: |
 | **Nord** <br> <img width="100%" alt="Nord Theme" src="https://github.com/user-attachments/assets/3c526f3a-5b0c-4be7-83d1-3408e15701a7" /> |
 | **Purple** <br> <img width="100%" alt="Purple Theme" src="https://github.com/user-attachments/assets/d4fcf6de-c3c5-4a17-8517-fe21928cc02d" /> |
