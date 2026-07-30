@@ -203,16 +203,40 @@ This guide lists all configured keybindings managed by `sxhkd` for **BSPWM** and
 | `XF86AudioPrev` | `playerctl previous` | Previous Track |
 | `XF86AudioPlay` | `playerctl play-pause` | Play / Pause |
 
+----
 <a name="tips"></a>
 ## Virtual Machine Setup
 
 If you are running this environment inside a Virtual Machine, you may experience performance issues, graphical glitches, or lag with window animations. 
 
-To ensure smooth performance:
-
-* **Enable 3D Acceleration:** Make sure **3D Display Acceleration** is enabled in your VM settings.
-* **Allocate Dedicated Video Memory (VRAM):** Assign at least **256 MB - 512 MB** of VRAM to the virtual graphics adapter.
-
->  **Note for VMware users:** Go to **Virtual Machine Settings** ➔ **Display** ➔ Check **Accelerate 3D graphics** and increase the **Graphics Memory** slider.
+> [!NOTE] Note for VMware users:
+> Go to **Virtual Machine Settings** ➔ **Display** ➔ Check **Accelerate 3D graphics** and increase the **Graphics Memory** slider.
 
 <img width="986" height="422" alt="Image" src="https://github.com/user-attachments/assets/2717b6a1-8084-4a35-acd3-b52b150dc77b" />
+
+
+### Enabling Battery Passthrough on Laptops (VMware Only)
+
+If you are running VMware on a laptop, the guest OS may not detect your battery status by default (showing `No Battery` in Polybar or system widgets). 
+
+To allow the Virtual Machine to read your host laptop's battery and AC adapter status, follow these steps:
+
+1. **Power off** your Virtual Machine completely.
+2. Locate and open your virtual machine's `.vmx` configuration file using a text editor (e.g., `Notepad` or `nano`).
+3. Add the following lines at the end of the file:
+
+```ini
+batterymeter.enable = "TRUE"
+acpi.present = "TRUE"
+chipset.useAcpiBattery = "TRUE"
+chipset.useApmBattery = "TRUE"
+```
+
+> [!NOTE]
+> If you do not need audio input inside your VM, you can also disable the microphone completely by adding/editing these parameters in the .vmx file.
+
+```ini
+sound.startConnected = "FALSE"
+sound.record.enable = "FALSE"
+sound.record.autodetect = "FALSE"
+```
