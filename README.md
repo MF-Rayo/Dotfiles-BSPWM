@@ -1,12 +1,10 @@
 ## Dotfiles BSPWM
 
-[- Install](#install)
-[- Themes](#themes)
-[- Polybars](#Polybars)
-[- EWW]($EWW)
-[- ShorCuts](#Shorcuts)
-
-
+- [Install](#install)
+- [Themes](#themes)
+- [Polybars](#Polybars)
+- [EWW]($EWW)
+- [ShorCuts](#Shorcuts)
 
 ---
 
@@ -27,12 +25,6 @@ cd Dotfiles-BSPWM &&  chmod +x ./Installer.sh
 ./Installer.sh
 ```
 
-<img src="https://github.com/MF-Rayo/Dotfiles-BSPWM/issues/1#issue-5022157232" alt="Installation Preview" width="100%">
-
-
-
-
-
 ---
 
 <a name="themes"></a>
@@ -51,6 +43,10 @@ Here are the built-in color schemes included in this configuration:
 | **White** | <img width="1917" height="876" alt="Image" src="https://github.com/user-attachments/assets/c2efdb6a-1938-47f5-b197-a133fe735402" /> |
 | **ZeroColor** | <img width="1913" height="875" alt="Image" src="https://github.com/user-attachments/assets/2951f0da-cebc-4211-a539-756fbab0b81e" /> |
 
+## Demo
+
+<video width="100%" height="auto" src="https://github.com/user-attachments/assets/66e23de6-dd6f-401b-9d77-880d7111c642"></video>
+---
 
 ### API Keys Configuration (Optional)
 
