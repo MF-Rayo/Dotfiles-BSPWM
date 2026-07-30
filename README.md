@@ -63,7 +63,8 @@ cd Dotfiles-BSPWM && chmod +x Installer.sh
 
 Here are the built-in color schemes included in this configuration:
 
-| :---: | :---: |
+| Theme |
+| :---: |
 | **Nord** <br> <img width="100%" alt="Nord Theme" src="https://github.com/user-attachments/assets/3c526f3a-5b0c-4be7-83d1-3408e15701a7" /> |
 | **Purple** <br> <img width="100%" alt="Purple Theme" src="https://github.com/user-attachments/assets/d4fcf6de-c3c5-4a17-8517-fe21928cc02d" /> |
 | **Green** <br> <img width="100%" alt="Green Theme" src="https://github.com/user-attachments/assets/a6946ff2-e309-4b8a-87ad-ec7ee173f8ca" /> |
@@ -92,8 +93,6 @@ Both configurations are highly customizable, allowing you to add, edit, or remov
 Polybar handles the main top/bottom panel with multiple theme layouts.
 * **Configuration Path:** `~/.config/polybar/themes/`
 * **Selector:** Use `Super` + `Ctrl` + `p` to open the launcher and switch Polybar styles on the fly.
-
----
 
 ### EWW (ElKowar's Wacky Widgets)
 EWW is used for modern, stand-alone widgets and custom desktop popups.
