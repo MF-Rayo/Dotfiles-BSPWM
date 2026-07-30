@@ -1,0 +1,201 @@
+;; Vars ;;
+
+;; System
+(defpoll os :interval "24h" "~/.config/eww/scripts/fetch os")
+(defpoll wm :interval "24h" "~/.config/eww/scripts/fetch wm")
+
+(defpoll weathertemp  :interval "15m" "~/.config/eww/scripts/weather.sh temp")
+(defpoll weatherdesc  :interval "15m" "~/.config/eww/scripts/weather.sh desc")
+(defpoll weathericon  :interval "15m" "~/.config/eww/scripts/weather.sh icon")
+(defpoll weathercity  :interval "15m" "~/.config/eww/scripts/weather.sh city")
+(defpoll weatherhex   :interval "15m" "~/.config/eww/scripts/weather.sh hex")
+
+;; Profile
+(defvar IMAGEP "~/Wallpaper/a.png")
+(defpoll username :interval "24h" "whoami")
+(defpoll hostname :interval "24h" "cat /etc/hostname")
+(defpoll uptime :interval "30s" "uptime -p | sed -E -e 's/hour(s)?/hrs/g' -e 's/minute(s)?/min/g'")
+(defpoll avatar_path :interval "24h" "echo \"$HOME/.config/eww/images/avatar.png\"")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Widgets ;;
+
+(defwidget infosys []
+  (box :class "infosys"
+       :orientation "v"
+       :space-evenly false
+       :spacing 10
+       (closebtn)
+       (pfp)
+       (weather)
+       (system)
+       (systemdate)
+  )
+)
+
+(defwidget closebtn []
+  (box :orientation "h" :space-evenly "false" :halign "end"
+    (eventbox :cursor "pointer"
+      (button :class "min" :onclick "eww -c ~/.config/eww/widgets/profilecard close infosys" "󰅙")
+    )
+  )
+)
+
+(defwidget pfp []
+	(box :orientation "h"
+		 :space-evenly "false"
+		 :class "usercard"
+		  (box :space-evenly "false"
+			  :hexpand true
+			  :width 320
+			  :orientation "h"
+			  :spacing "15"
+
+        ;; AVATAR (EVA01)
+        (box
+          :width 64
+          :height 64
+          :hexpand false
+          :vexpand false
+          :halign "start"
+          :valign "center"
+          (image
+            :path avatar_path
+            :class "face"
+            :halign "center"
+            :valign "center"
+          )
+        )
+
+			  (box :orientation "v"
+				   :space-evenly "false"
+				   :hexpand true
+				   :valign "center"
+				   (box :class "user-host"
+						:halign "start"
+						(label :text username))
+			       (box :class "host"
+						:halign "start"
+						(label :text "@${hostname}"))
+				   (box :class "uptime"
+						:halign "start"
+						(label :text uptime)))
+			  (box :orientation "v"
+				   :space-evenly "false"
+				   :spacing 10
+				   :valign "center"
+				   :halign "start"
+				   :hexpand false
+				   (eventbox :cursor "pointer"
+				   (button :class "btn-info" :tooltip "Lock Computer" :onclick "~/.config/i3lock-color/i3lock-everblush" "󱅞"))
+				   (eventbox :cursor "pointer"
+				   (button :class "btn-info" :tooltip "Logout BSPWM" :onclick "bspc quit" "󰍃")))
+		)
+	)
+)
+
+(defwidget system_progress [data icon css tip]
+  (box :class "progress"
+    (circular-progress
+      :class css
+      :value data
+      :thickness 6
+      :tooltip tip
+      (overlay
+        :valign "center"
+        (label :class "icon" :text icon)
+      )
+    )
+  )
+)
+
+(defwidget cpu []
+  (box :orientation "v" :spacing 4 :class "sys-stat"
+    (system_progress
+      :css "cpu"
+      :tip "CPU ${round(EWW_CPU.avg,0)}%"
+      :data {round(EWW_CPU.avg, 0)}
+      :icon ""
+    )
+  )
+)
+
+(defwidget ram []
+  (box :orientation "v" :spacing 4 :class "sys-stat"
+    (system_progress
+      :css "ram"
+      :tip "RAM ${round(EWW_RAM.used_mem / 1073741824, 1)} / ${round(EWW_RAM.total_mem / 1073741824, 0)} GB"
+      :data {round(EWW_RAM.used_mem_perc, 0)}
+      :icon ""
+    )
+  )
+)
+
+(defwidget disk []
+  (system_progress
+    :css "disk"
+    :tip "SSD ${round(EWW_DISK["/"].used_perc, 2)}%"
+    :data {round(EWW_DISK["/"].used_perc, 0)}
+    :icon ""
+  )
+)
+
+(defwidget cpuinfo []
+  (label :class "sys-label" :text "${round(EWW_CPU.avg,0)}%")
+)
+
+(defwidget raminfo []
+  (label :class "sys-label" :text "${round(EWW_RAM.used_mem / 1073741824,1)} / ${round(EWW_RAM.total_mem / 1073741824,0)} GB")
+)
+
+(defwidget diskinfo []
+  (label :class "sys-label"
+    :text "${round(EWW_DISK["/"].used / 1073741824, 1)} / ${round(EWW_DISK["/"].total / 1073741824, 0)} GB"
+  )
+)
+
+(defwidget system []
+  (box :class "system" :spacing 12
+    (cpu)
+    (ram)
+    (disk)
+  )
+)
+
+(defwidget systemdate []
+  (box :class "system" :spacing 12
+    (cpuinfo)
+    (raminfo)
+    (diskinfo)
+  )
+)
+
+(defwidget weather []
+  (box :orientation "h"
+       :class "weatherboxfull"
+       :space-evenly false
+       (box :orientation "v" :class "weatherbox" :hexpand true :space-evenly false
+         (box :orientation "h" :class "weathertop" :space-evenly false
+           (box :class "weatherdesc" :style "color: ${weatherhex ?: '#adadff'};" :halign "start" :hexpand true weatherdesc)
+           (box :class "weathertemp" :halign "end" "${weathertemp}°C")
+         )
+         (box :orientation "v" :class "weatherbot" :space-evenly false
+           (box :class "weathercity" :halign "start" :hexpand true
+             (label :limit-width 22 :text weathercity))
+         )
+       )
+       (box :class "weathericon" :style "color: ${weatherhex ?: '#adadff'};" :halign "center" weathericon)
+  )
+)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Window ;;
+
+(defwindow infosys
+  :geometry (geometry :x "80px" :y "0px" :anchor "left center")
+  :wm-ignore false
+  (infosys)
+)

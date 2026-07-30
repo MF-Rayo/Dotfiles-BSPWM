@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source ~/.config/theme/colors/bin.sh
+cmatrix -C "$cmatrix"

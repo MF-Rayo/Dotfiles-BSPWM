@@ -1,0 +1,179 @@
+#!/bin/bash
+
+CLIPBOARD_DIR="$HOME/.notes"
+file="$CLIPBOARD_DIR/notes.json"
+
+mkdir -p "$CLIPBOARD_DIR"
+[[ ! -f "$file" ]] && echo '[]' > "$file"
+
+theme="$HOME/.config/rofi/notes/note.rasi"
+
+yes=' Yes'
+no=' No'
+
+rofi_prompt() {
+    local prompt="$1"
+    local placeholder="$2"
+    local input="$3"
+
+    echo -e "$input" | rofi -dmenu \
+        -p "$prompt" \
+        -theme "$theme" \
+        -theme-str "entry { placeholder: \"$placeholder\"; }"
+}
+
+rofi_dmenu_empty() {
+    local prompt="$1"
+    local placeholder="$2"
+    rofi -dmenu \
+        -p "$prompt" \
+        -theme "$theme" \
+        -theme-str "entry { placeholder: \"$placeholder\"; }" \
+        < /dev/null
+}
+
+confirm_cmd() {
+	rofi -theme-str '
+            window { 
+                width: 350px; 
+                background-color: @background;
+                background-image: url("~/.Wallpaper/AppliedWallpaper.png", height);
+            } 
+            mainbox { 
+                enabled: true; 
+                spacing: 15px; 
+                margin: 0px; padding: 30px;
+                border: 0px solid; 
+                border-radius: 0px; 
+                border-color: @selected;
+                background-color: transparent; children: [ "message", "listview" ];
+            }
+            listview { 
+                enabled: true; 
+                columns: 1; 
+                lines: 1; 
+                cycle: true; 
+                dynamic: true;
+                scrollbar: false;
+            }
+            element {
+                enabled:                     true;
+                spacing:                     0px;
+                margin:                      0px;
+                padding:                     40px 10px;
+                border:                      0px solid;
+                border-radius:               50px 20px 50px 20px;
+                border-color:                @selected;
+                background-color:            @background-alt;
+                text-color:                  @foreground;
+                cursor:                      pointer;
+            }
+            element-text {
+                font:                        "feather bold 32";
+                background-color:            transparent;
+                text-color:                  inherit;
+                cursor:                      inherit;
+                horizontal-align:            0.5;
+            }
+            element selected.normal {
+                border:                      0px 0px 2px 2px ;
+                border-color:                @selected;
+                background-color:            var(background-alt);
+                text-color:                  var(selected);
+            }
+            message {
+                enabled:                     true;
+                margin:                      0px;
+                padding:                     12px;
+                border:                      0px solid;
+                border-radius:               15px 5px 15px 5px;
+                border-color:                @selected;
+                background-color:            @background-alt;
+                text-color:                  @foreground;
+            }
+            textbox {
+                background-color:            inherit;
+                text-color:                  inherit;
+                vertical-align:              0.5;
+                horizontal-align:            0.5;
+                placeholder-color:           @foreground;
+                blink:                       true;
+                markup:                      true;
+            }' \
+		-dmenu \
+		-p 'Confirmation' \
+		-mesg '󰩹 Delete this Note?' \
+		-theme $theme
+}
+
+confirm_delete() {
+	echo -e "$yes\n$no" | confirm_cmd
+}
+
+add_new() {
+    local new_note
+    new_note=$(rofi_dmenu_empty " 󰏢 New Note" "Enter New Note Here...")
+
+    if [ -n "$new_note" ]; then
+        local id=$(jq 'map(.id) | max // 0' "$file")
+        local date_note=$(date +"%d/%m/%Y %H:%M") 
+        
+        id=$((id + 1)) 
+        
+        jq --argjson id "$id" --arg date "$date_note" --arg note "$new_note" \
+        '. += [{"id": $id, "date": $date, "note": $note}]' "$file" > "$file.tmp" \
+        && mv "$file.tmp" "$file"
+
+        notify-send -t 1000 " 󰏢 Saved Note"
+    fi
+}
+
+view_notes() {
+    if [[ ! -f "$file" ]] || [[ $(jq 'length' "$file") -eq 0 ]]; then
+        notify-send -t 1000 " 󰏢 No Note"
+        return
+    fi
+
+    notes=$(jq -r 'sort_by(.id) | reverse | .[] | "[\(.date)] - \(.note)"' "$file")
+
+    local selection
+    selection=$(rofi_prompt " 󰏢 Notes" "Select Note To Copy" "$notes")
+
+    if [ -n "$selection" ]; then
+        note_copy=$(echo $selection | cut -d'-' -f2- | sed 's/^ //')
+        echo -n "$note_copy" | xclip -selection clipboard
+        notify-send -t 1000 " 󰏢 Note copied"
+    fi
+}
+
+delete_note() {
+    if [[ ! -f "$file" ]] || [[ $(jq 'length' "$file") -eq 0 ]]; then
+        notify-send -t 1000 " 󰏢 No Note"
+        return
+    fi
+    
+    notes=$(jq -r 'sort_by(.id) | reverse | .[] | "[\(.id)] \(.date) - \(.note)"' "$file")
+
+    local selection
+    selection=$(rofi_prompt " 󰩹 Delete Note" "Select Note..." "$notes")
+    [[ -z "$selection" ]] && return
+    local id_delete
+    local tmp_file="$file.tmp"
+
+    id_delete=$(echo $selection | awk -F'[][]' '{print $2}')
+
+    confirm="$(confirm_delete)"
+    if [[ "$confirm" == "$yes" ]]; then
+        jq --argjson id "$id_delete" 'map(select(.id != $id))' "$file" > "$tmp_file" && mv "$tmp_file" "$file"
+        notify-send  -t 1000 "󰩹 Deleted Note"
+    fi
+}
+
+opcion=$(rofi_prompt "󰆒 Notes" "Select Opcion..." \
+    "󰏪 New Note\n󰏢 View Notes\n󰩹 Delete Note")
+
+case "$opcion" in
+    "󰏪 New Note") add_new ;;
+    "󰏢 View Notes") view_notes ;;
+    "󰩹 Delete Note")  delete_note ;;
+esac

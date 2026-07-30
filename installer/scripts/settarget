@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+w="\033[0;37m"; r="\033[0;31m"; g="\033[0;32m"; y="\033[0;33m"; sb="\033[0;36m"; reset="\033[0m"
+
+json="$HOME/.target.json"
+getdate=$(date +"%d/%m/%Y %H:%M") 
+
+[[ ! -f "$json" ]] && echo '{ "target": null, "items": [] }' > "$json"
+
+menu(){
+  echo -e "\n${y}[-] Usage:${reset} ${g}settarget${reset} ${sb}-h${reset}\n"
+  echo -e "    ${sb}-t${reset} ${w}[--target]${reset}   Define NAME and IP. ${y}Example: ${g}settarget ${sb}-t ${w}10.10.10.10${reset} or ${g}settarget ${sb}-t ${w}\"CTF 10.10.10.10\""
+  echo -e "    ${sb}-l${reset} ${w}[--list]${reset}     List previously defined targets"
+  echo -e "    ${sb}-i${reset} ${w}[--id]${reset}       Use target by stored ID. ${y}Example: ${g}settarget ${sb}-i ${w}2"
+  echo -e "    ${sb}-n${reset} ${w}[--none]${reset}     Clear or unset current target"
+  echo -e "    ${sb}-r${reset} ${w}[--remove]${reset}   Remove all targets\n"
+  exit 0
+}
+
+case "$1" in
+  -h)
+    menu
+    ;;
+  -t|--target)
+    input="$2"
+
+    if [[ ! -n "$2" || -n "$3" ]]; then
+      menu
+    fi
+
+    if [[ "$input" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+      settarget="$input"
+    else
+      clean_input=$(echo "$input" | sed -E 's/^[[:space:]-]+|[[:space:]-]+$//g')
+      if [[ "$clean_input" =~ ^(.*)[[:space:]]+([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+        name="${BASH_REMATCH[1]}"
+        ip="${BASH_REMATCH[2]}"
+      
+        name=$(echo "$name" | sed -E 's/[[:space:]-]+$//')
+        settarget="$name - $ip"
+      else
+        settarget="$clean_input"
+      fi
+    fi
+
+    id=$(($(jq '.items | map(.id) | max  // 0' "$json" ) + 1))
+
+    jq --arg id "$id" '.target = $id' "$json" > "${json}.tmp" && mv "${json}.tmp" "$json"
+    jq --argjson id "$id" --arg target "$settarget" --arg date "$getdate" \
+    '.items += [{"id": $id, "date": $date, "target": $target}]' "$json" > "$json.tmp" && mv "$json.tmp" "$json"
+    ;;
+
+  -l|--list)
+    clear
+    /bin/batcat --paging=never "$json"
+    ;;
+  -i|--id)
+    id="$2"
+    jq --arg id "$id" '.target = $id' "$json" > "${json}.tmp" && mv "${json}.tmp" "$json"
+    ;;
+  -n|--none)
+    jq '.target = null' "$json" > "${json}.tmp" && mv "${json}.tmp" "$json"
+    ;;
+  -r|--remove)
+    rm -rf "$json"
+    ;;
+  *)
+    menu
+    ;;
+esac

@@ -1,0 +1,152 @@
+#!/bin/bash
+
+w="\033[0;37m"; r="\033[1;31m"; g="\033[0;32m"; y="\033[0;33m"; sb="\033[0;36m"; reset="\033[0m"; bl='\033[1;30m'; p='\033[1;35m'; cy='\033[1;36m'
+
+trap ctrl_c INT
+
+function ctrl_c () {
+echo -e "\n\n${r}[!] Exiting"
+exit 1
+}
+
+banner (){
+    local ssid="$1"
+    local interface="$2"
+    clear
+    echo -e "${g}  .               . "
+    echo -e "${g}.´  ·  .     .  ·  \`.  ${cy} - ${y}${ssid}"
+    echo -e "${g}:  :  :  ${sb}( )  ${g}:  :  :  ${cy} - ${y}${interface}"
+    echo -e "${g}\`.  ·  \` ${sb}/¯\ ${g}´  ·  .´  "
+    echo -e "${g}  \`     ${sb}/¯¯¯\     ${g}´ "
+}
+
+connect_wifi(){
+    local essid="$1"
+    local password="$2"
+    local interface="$3"
+    if [ -n "$password" ]; then
+        nmcli dev wifi connect "$essid" password "$password" ifname "$interface" &>/dev/null
+    else
+        nmcli dev wifi connect "$essid" ifname "$interface" &>/dev/null
+    fi
+
+    case $? in
+        0)
+            echo -e "\n${cy}[+] ${w}Connected ${g}successfully to ${cy}${essid}"
+            ;;
+        4)
+            echo -e "\n${r}[!] ${r}Connected failed. Wrong password or no internet."
+            ;; 
+        10)
+            echo -e "\n${r}[!] ${r}Connected failed. Network ${essid} not found."
+            ;; 
+        *)
+            echo -e "\n${r}[!] ${r}Unknown error connectiong to ${essid}."
+            ;;
+    esac
+    sleep 2
+}
+
+scan_wifi(){
+    local interface="$1"
+    echo -e "\n${cy}[-]${w} Escanning...${reset}\n"   
+    
+    head=$(nmcli -f SSID,BSSID,CHAN,SIGNAL,SECURITY dev wifi list |head -n1)
+    line=${#head} # Count line exam: 26 ----
+    echo "$head"
+    printf '%*s\n' "$line" '' | tr ' ' '-' 
+    nmcli --colors yes -f SSID,BSSID,CHAN,SIGNAL,SECURITY dev wifi list | tail -n +2
+    printf '%*s\n' "$line" '' | tr ' ' '-' 
+
+    echo -e "\n${w}Opcions"
+    printf '%*s\n' "$line" '' | tr ' ' '-' 
+    echo -e "${cy}1.- ${w}Rescan\n${cy}2.- ${g}New ${w}Connection\n${cy}3.- ${w}Connect ${g}to Exiting\n${cy}4.- ${g}Update ${w}Password\n${cy}5.- ${w}Show Password ${r}(Root)\n"
+    echo -ne "${y}>${cy} "
+    read opcion
+
+    case $opcion in
+        01|1)
+            wifi ;;
+        02|2)
+            echo ""
+            echo -ne "${cy} ${w}SSID > ${g}"
+            read essid
+            echo -ne "${cy} ${w}Password > ${r}"
+            read password
+            echo -e "\n${cy} ${w}Connecting to ${g}${essid}..."
+            connect_wifi "$essid" "$password" "$interface"
+            wifi ;;
+        03|3)
+            echo ""
+            echo -ne "${cy} ${w}SSID > ${g}"
+            read essid
+            connect_wifi "$essid" "" "$interface"
+            wifi ;;
+        04|4)
+            echo ""
+            echo -ne "${cy} ${w}SSID > ${g}"
+            read essid
+            echo -ne "${cy} ${w}New Password > ${r}"
+            read password
+            nmcli con delete "$essid" &>/dev/null
+            connect_wifi "$essid" "$password" "$interface"
+            wifi ;;
+        05|5)
+            echo -ne "\n${cy} ${w}SSID > ${g}"
+            read essid
+            password=$(sudo nmcli -s con show "$essid" 2>/dev/null | grep 802-11-wireless-security.psk: | awk '{print $2}')
+            if [ -n "$password" ]; then
+                echo -e "${cy} ${w}Password: ${g}${password}"
+            else
+                echo -e "${r} No Password"
+            fi
+            exit 0 ;;
+        *)
+            echo ""
+            echo -e "${r}[!]${w} Invalid Opcion"
+            sleep 2
+            wifi ;;
+    esac
+}
+
+disconnect(){
+    local essid="$1"
+    local interface="$2"
+    echo -e "\n${cy}1.${w} Disconected from ${y}${essid}\n"   
+    echo -ne "${w}>${cy} "
+    read opcion
+    
+    case $opcion in
+        01|1)
+            echo ""
+            echo -e "${r}[!]${w} Desconecting from ${y}${essid}..."
+            nmcli device disconnect "$interface" &>/dev/null
+            sleep 2
+            wifi ;;
+        *)
+            echo -e "\n${r} [!] Invalid Opcion"
+            sleep 2
+            wifi ;;
+    esac
+}
+
+wifi () {
+essid=$(/usr/sbin/iwgetid)
+
+if [ "$essid" != "" ]; then
+    ssid=$(/usr/sbin/iwgetid | grep -oP 'ESSID:"\K[^"]+')
+    interface=$(/usr/sbin/iwgetid | awk '{print $1}')
+    banner "$ssid" "$interface"
+    disconnect "$ssid" "$interface"
+else
+    interface=$(ip link | grep -o 'wl[^:]*' | head -1)
+    if [ "$interface" != "" ]; then
+        banner "Disconnect" "$interface"
+        scan_wifi "$interface"
+    else
+        banner "Disconnect" "No interface wlan"
+    fi
+fi
+}
+
+wifi

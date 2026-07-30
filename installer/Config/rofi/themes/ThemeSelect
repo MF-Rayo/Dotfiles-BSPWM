@@ -1,0 +1,62 @@
+#!/bin/bash
+
+THEMES_PREVIEWS="$HOME/.BSPWM/.img/Themes"
+CONFIG="$HOME/.config/theme/config.json"
+THEME=$(jq -r '.theme' "$CONFIG")
+ROFI="$HOME/.config/rofi/themes/config.rasi"
+
+MENU_FILE=$(mktemp $THEMES_PREVIEWS/wall_menu_XXXX.txt) 
+
+while IFS= read -r -d '' THUMB; do
+    FILENAME=$(basename "$THUMB")
+    printf '%s\000icon\037%s\n' "$FILENAME" "$THUMB" >> "$MENU_FILE"
+done < <(find "$THEMES_PREVIEWS" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.webp" \) -print0 | LC_ALL=C sort -z)
+
+selected=$(rofi -dmenu -input "$MENU_FILE" -theme "$ROFI" -show-icons -icon-size 272 -select "$THEME")
+
+[ -z "$selected" ] && exit 0
+
+selected_bar=$(printf '%s' "$selected" | sed 's/^\xE2\x80\x8B//')
+SELECTED_THEME="${selected_bar%.*}"
+rm -r "$MENU_FILE"
+
+if [ "$SELECTED_THEME" = "$THEME" ]; then
+    bspc wm -r
+    exit 0
+else
+    jq --arg p "$SELECTED_THEME" '.theme = $p' "$CONFIG" > /tmp/config.tmp && mv /tmp/config.tmp "$CONFIG"
+    
+    pkill -x eww 
+    pkill -f "$HOME/.config/eww/Bar.sh"
+
+    rm -rf "$HOME.p10k.zsh" "$HOME/.config/cava/config" \
+        "$HOME/.config/fastfetch/config.jsonc" \
+        "$HOME/.config/dunst/colors.conf" \
+        "$HOME/.Wallpaper" 2>/dev/null
+
+    if [ "$SELECTED_THEME" = "ZeroColor" ]; then
+        ~/.config/bin/scripts/color_picker/pywal.sh
+    fi
+    
+    cp -r "$HOME/.BSPWM/Themes/$SELECTED_THEME/.p10k.zsh" "$HOME/"
+    cp -r "$HOME/.BSPWM/Themes/$SELECTED_THEME/Wallpaper" "$HOME/.Wallpaper"
+    cp -r $HOME/.BSPWM/Themes/$SELECTED_THEME/colors "$HOME/.config/theme/"
+
+    ~/.config/bin/scripts/color_picker/colors.sh
+
+    EWW="$HOME/.BSPWM/Themes/$SELECTED_THEME/colors/eww.scss"
+    for dest in \
+        "$HOME/.config/eww/colors.scss" \
+        "$HOME/.config/eww/widgets/calendar/colors.scss" \
+        "$HOME/.config/eww/widgets/profilecard/colors.scss"
+    do
+        rm -f "$dest"
+        cp "$EWW" "$dest"
+    done
+
+    pkill -USR1 cava 2>/dev/null
+    pkill xwinwrap 2>/dev/null
+    kill -USR1 $(pgrep -x kitty)
+    pkill dunst
+    bspc wm -r
+fi

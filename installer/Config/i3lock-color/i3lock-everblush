@@ -1,0 +1,41 @@
+#!/bin/sh
+. ~/.config/theme/colors/bin.sh
+
+i3lock \
+  --inside-color=$bg$alpha \
+  --insidever-color=$bg$alpha \
+  --insidewrong-color=$bg$alpha \
+  --ring-color=$bg$alpha \
+  --ringver-color=$indicator$alpha \
+  --ringwrong-color=$error$alpha \
+  --line-uses-ring \
+  --keyhl-color=$highlight$alpha \
+  --bshl-color=$warning$alpha \
+  --separator-color=$border$alpha \
+  --verif-color=$indicator \
+  --wrong-color=$error \
+  --layout-color=$highlight \
+  --date-color=$fg \
+  --time-color=$fg \
+  --screen 1 \
+  --blur 1 \
+  --clock \
+  --indicator \
+  --keylayout 1 \
+  --time-str="%I:%M %p" \
+  --date-str="%a, %b %e %Y" \
+  --verif-text="Verifying..." \
+  --wrong-text="Auth Failed" \
+  --noinput="No Input" \
+  --lock-text="Locking..." \
+  --lockfailed="Lock Failed" \
+  --time-font=Roboto \
+  --date-font=Roboto \
+  --layout-font=Roboto \
+  --verif-font=Roboto \
+  --wrong-font=Roboto \
+  --radius=110 \
+  --ring-width=9 \
+  --pass-media-keys \
+  --pass-screen-keys \
+  --pass-volume-keys

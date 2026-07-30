@@ -1,0 +1,3 @@
+#!/bin/bash
+clear
+/bin/batcat --paging=never $HOME/.config/sxhkd/sxhkdrc -l ruby

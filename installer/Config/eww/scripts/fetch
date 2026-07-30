@@ -1,0 +1,10 @@
+#!/bin/bash
+
+case "$1" in
+  os)
+    grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2 | tr -d '"'
+    ;;
+  wm)
+    echo $XDG_CURRENT_DESKTOP $XDG_SESSION_DESKTOP $DESKTOP_SESSION | awk '{print $1}'
+    ;;
+esac

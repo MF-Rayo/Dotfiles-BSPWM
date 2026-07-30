@@ -1,0 +1,47 @@
+#!/bin/bash
+
+w="\033[0;37m"  
+b="\033[0;34m"  
+r="\033[0;31m"  
+g="\033[0;32m"  
+o="\033[0;33m"  
+p="\033[0;35m"  
+sb="\033[0;36m" 
+reset="\033[0m" 
+
+banner() {
+    clear
+    echo -e "${sb}"
+    cat << 'EOF'
+,--.   ,--.        ,--.,--.       
+|  |   |  | ,--,--.|  ||  | ,---. 
+|  |.'.|  |' ,-.  ||  ||  |(  .-' 
+|   ,'.   |\ '-'  ||  ||  |.-'  `)
+'--'   '--' `--`--'`--'`--'`----' 
+EOF
+}
+
+banner
+
+echo -e "\n${g} Descargando Wallpaper${o}\n"
+
+cd "/tmp" || exit
+
+git clone https://github.com/MF-Rayo/Walls.git
+
+if [ -d "/tmp/Walls" ]; then
+    temas=("White" "Black" "Blue" "Nord" "Red" "Purple" "Yellow" "Green")
+
+    for tema in "${temas[@]}"; do
+        origen="/tmp/Walls/$tema"
+        destino="$HOME/.BSPWM/Themes/$tema/Wallpaper"
+    
+        cp -r "$origen/"* "$destino/" >/dev/null 2>&1
+        echo -e "${sb}  - Actualizado: ${g}$tema${reset}"
+    done
+
+    #rm -rf "/tmp/Walls"
+    echo -e "\n${g}[+] Wallpapers actualizados y carpeta temporal eliminada${reset}\n"
+else
+    echo -e "${r}[!] Error al clonar el repositorio${reset}"
+fi

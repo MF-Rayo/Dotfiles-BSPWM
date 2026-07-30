@@ -1,0 +1,16 @@
+{
+  "theme": "Nord",
+  "polybar": "Cuts",
+  "bspwmrc": {
+    "left_padding": "4",
+    "right_padding": "4",
+    "top_padding": "52",
+    "bottom_padding": "4",
+    "bar": "~/.config/polybar/launch.sh"
+  },
+  "api":{
+    "wallhaven": "",
+    "openweather": ""
+  },
+  "city": ""
+}

@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+BAR_EWW="$HOME/.config/eww/Bar.sh"
+BAR_POLYBAR="$HOME/.config/polybar/launch.sh"
+POLYBAR_PREVIEW="$HOME/.BSPWM/.img/Polybar"
+CONFIG="$HOME/.config/theme/config.json"
+POLYBAR=$(jq -r '.polybar' "$CONFIG")
+ROFI="$HOME/.config/rofi/themes/config.rasi"
+
+MENU_FILE=$(mktemp $POLYBAR_PREVIEW/wall_menu_XXXX.txt) 
+
+while IFS= read -r -d '' THUMB; do
+    FILENAME=$(basename "$THUMB")
+    printf '%s\000icon\037%s\n' "$FILENAME" "$THUMB" >> "$MENU_FILE"
+done < <(find "$POLYBAR_PREVIEW" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.webp" \) -print0 | LC_ALL=C sort -z)
+
+selected=$(rofi -dmenu -input "$MENU_FILE" -theme "$ROFI" -show-icons -icon-size 272 -select "$POLYBAR" )
+
+[ -z "$selected" ] && exit 0
+
+selected_bar=$(printf '%s' "$selected" | sed 's/^\xE2\x80\x8B//')
+BAR="${selected_bar%.*}"
+rm -r "$MENU_FILE"
+
+if [ "$BAR" = "$POLYBAR" ]; then
+    bspc wm -r
+    exit 0
+fi
+
+if [ "$BAR" = "PacmanEww" ]; then
+    pkill -x polybar
+    pkill -f "$HOME/.config/polybar/launch.sh"
+
+    jq --arg lp "62" --arg tp "4" --arg bp "4" --arg bar "$BAR_EWW" \
+    '.bspwmrc.left_padding = $lp | .bspwmrc.top_padding = $tp | .bspwmrc.bottom_padding = $bp | .bspwmrc.bar = $bar' \
+    "$CONFIG" > /tmp/config.tmp && mv /tmp/config.tmp "$CONFIG"
+else
+    pkill -x eww 
+    pkill -f "$HOME/.config/eww/Bar.sh"
+    
+    if [ "$BAR" = "Cuts" ] || [ "$BAR" = "Shapes" ]; then
+        tp="34"; bp="34"
+    elif [ "$BAR" = "Lofi" ]; then
+        tp="4"; bp="34"
+    else
+        tp="52"; bp="4"
+    fi
+
+    jq --arg lp "4" --arg tp "$tp" --arg bp "$bp" --arg bar "$BAR_POLYBAR" \
+    '.bspwmrc.left_padding = $lp | .bspwmrc.top_padding = $tp | .bspwmrc.bottom_padding = $bp | .bspwmrc.bar = $bar' \
+    "$CONFIG" > /tmp/config.tmp && mv /tmp/config.tmp "$CONFIG"
+
+    cp -r "$HOME/.config/polybar/themes/$BAR/launch.sh" "$BAR_POLYBAR"
+    chmod +x "$BAR_POLYBAR"
+fi
+
+jq --arg p "$BAR" '.polybar = $p' "$CONFIG" > /tmp/config.tmp && mv /tmp/config.tmp "$CONFIG"
+bspc wm -r

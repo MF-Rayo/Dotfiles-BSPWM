@@ -1,0 +1,71 @@
+[global]
+monitor = 0
+follow = mouse
+width = 400
+height = (80,80)       
+offset = (20, 60)
+scale = 0
+origin = bottom-right
+notification_limit = 0
+padding = 20
+horizontal_padding = 40
+frame_width = 2
+frame_color = "#1c1c1c"
+separator_color = frame
+separator_height = 2
+transparency = 30
+corner_radius = 15
+
+font = JetBrainsMono Nerd Font 10
+markup = full
+format = "%s %b"
+alignment = left
+vertical_alignment = center
+word_wrap = yes
+ignore_newline = no
+stack_duplicates = false
+hide_duplicate_count = true
+
+# Mostrar iconos
+icon_position = left
+enable_recursive_icon_lookup = true
+
+show_indicators = false
+indicate_hidden = yes
+shrink = no
+
+idle_threshold = 120
+fullscreen = show
+show_age_threshold = 60
+history_length = 20
+
+# Tiempo por defecto (segundos)
+timeout = 8
+
+# Barra de progreso
+progress_bar = true
+progress_bar_height = 6
+progress_bar_frame_width = 1
+progress_bar_min_width = 150
+progress_bar_max_width = 300
+
+[urgency_low]
+background = "#1f1d2e"
+foreground = "#e0def4"
+frame_color = "#7DCFFF"
+timeout = 6
+icon = dialog-information
+
+[urgency_normal]
+background = "#2F343F"
+foreground = "#ffffff"
+frame_color = "#7DCFFF"
+timeout = 8
+icon = dialog-warning
+
+[urgency_critical]
+background = "#2F343F"
+foreground = "#ffffff"
+frame_color = "#7DCFFF"
+timeout = 0
+icon = dialog-error
