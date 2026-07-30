@@ -1,3 +1,16 @@
+## Dotfiles BSPWM
+
+[- Install](#install)
+[- Themes](#themes)
+[- Polybars](#Polybars)
+[- EWW]($EWW)
+[- ShorCuts](#Shorcuts)
+
+
+
+---
+
+<a name="install"></a>
 ## Installation & Setup
 
 Clone the repository and run the automated installation script:
@@ -13,6 +26,30 @@ cd Dotfiles-BSPWM &&  chmod +x ./Installer.sh
 ```bash
 ./Installer.sh
 ```
+
+<img src="https://github.com/MF-Rayo/Dotfiles-BSPWM/issues/1#issue-5022157232" alt="Installation Preview" width="100%">
+
+
+
+
+
+---
+
+<a name="themes"></a>
+## Available Themes
+
+Here are the built-in color schemes included in this configuration:
+
+| Theme | Preview |
+| :---: | :--- |
+| **Nord** | <img width="1917" height="875" alt="Image" src="https://github.com/user-attachments/assets/3c526f3a-5b0c-4be7-83d1-3408e15701a7" /> |
+| **Green** | <img width="1911" height="855" alt="Image" src="https://github.com/user-attachments/assets/a6946ff2-e309-4b8a-87ad-ec7ee173f8ca" /> |
+| **Yellow** | <img width="1913" height="871" alt="Image" src="https://github.com/user-attachments/assets/b17c9ad7-a70b-457e-afc3-a6221ec01e36" /> |
+| **Blue** | <img width="1912" height="872" alt="Image" src="https://github.com/user-attachments/assets/42464cae-4455-42b7-838e-f5596235c4d1" /> |
+| **Red** | <img width="1915" height="867" alt="Image" src="https://github.com/user-attachments/assets/c1b06c3e-1693-4c1f-a45a-8a9d8e7748c5" /> |
+| **Black** | <img width="1910" height="860" alt="Image" src="https://github.com/user-attachments/assets/6d361bcf-f106-48b6-9f56-18c10bff6a81" /> |
+| **White** | <img width="1917" height="876" alt="Image" src="https://github.com/user-attachments/assets/c2efdb6a-1938-47f5-b197-a133fe735402" /> |
+| **ZeroColor** | <img width="1913" height="875" alt="Image" src="https://github.com/user-attachments/assets/2951f0da-cebc-4211-a539-756fbab0b81e" /> |
 
 
 ### API Keys Configuration (Optional)
