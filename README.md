@@ -50,7 +50,7 @@ cd bspwm-dotfiles-debian && chmod +x Installer.sh
 <img width="876" height="396" alt="Image" src="https://github.com/user-attachments/assets/f9e6a383-d64c-46cc-a566-a70883b551cc" />
 
 ### Kali Linux
-<img width="825" height="314" alt="Image" src="https://github.com/user-attachments/assets/faedb556-8fb1-4dbb-8e1b-eafa502ab031" />
+<img width="897" height="381" alt="Image" src="https://github.com/user-attachments/assets/1bbd5ed6-f7c0-44f8-96be-8b7698f03700" />
 
 ### Parrot OS
 <img width="858" height="447" alt="Image" src="https://github.com/user-attachments/assets/f37eadec-2724-474c-aec6-0701cbde9b24" />
