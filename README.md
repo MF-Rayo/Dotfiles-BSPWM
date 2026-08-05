@@ -44,6 +44,17 @@ cd bspwm-dotfiles-debian && chmod +x Installer.sh
 ./Installer.sh
 ```
 
+## Select desktop environment
+
+### Debian 
+<img width="679" height="284" alt="Image" src="https://github.com/user-attachments/assets/6dbdac85-d051-4516-b969-5b3f6820dbed" />
+
+### Kali Linux
+<img width="634" height="240" alt="Image" src="https://github.com/user-attachments/assets/07c9fb89-7459-4c77-b3e9-cd31d4ca5c63" />
+
+### Parrot OS
+<img width="858" height="447" alt="Image" src="https://github.com/user-attachments/assets/f37eadec-2724-474c-aec6-0701cbde9b24" />
+
 ---
 
 <a name="compatibility"></a>
