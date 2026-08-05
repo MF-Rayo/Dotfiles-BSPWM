@@ -122,7 +122,7 @@ install_packages(){
         libxcb-randr0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-xinerama0-dev \
         libasound2-dev libxcb-xtest0-dev libxcb-shape0-dev jq xxhash feh scrot scrub\
         rofi xclip bat locate acpi bspwm sxhkd imagemagick cmatrix ifstat bc btop playerctl \
-        fzf ranger seclists fastfetch kitty wmname zsh suckless-tools numlockx xdotool \
+        fzf ranger fastfetch kitty wmname zsh suckless-tools numlockx xdotool \
         ueberzug cmake cmake-data pkg-config python3-sphinx libcairo2-dev libxcb1-dev \
         libxcb-composite0-dev python3-xcbgen xcb-proto libxcb-image0-dev libxcb-xkb-dev \
         libxcb-xrm-dev libxcb-cursor-dev libpulse-dev libjsoncpp-dev libmpdclient-dev \
@@ -130,18 +130,20 @@ install_packages(){
         libxcb-damage0-dev libepoxy-dev libxcb-xfixes0-dev libxcb-render-util0-dev \
         libxcb-render0-dev libxcb-present-dev libpixman-1-dev libdbus-1-dev libconfig-dev \
         libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev \
-        libxcb-glx0-dev libpcre3 libpcre3-dev mpv libxcb-util-dev libncursesw5-dev libfftw3-dev \
+        libxcb-glx0-dev mpv libxcb-util-dev libncursesw5-dev libfftw3-dev \
         libiniparser-dev make gcc autoconf automake libtool libx11-dev libxkbcommon-dev libxrender-dev \
         libxcomposite-dev libxkbcommon-x11-dev libpam0g-dev libxcb-dpms0-dev libjpeg-dev libgif-dev \
         libgtk-layer-shell-dev libdbusmenu-glib-dev libgtk-3-dev libdbusmenu-gtk3-dev adwaita-icon-theme dunst pipx
 
     if [ "$distro" = "kali" ]; then
-        sudo apt install -y  libdbusmenu-gtk3-4
-    else
+        sudo apt install -y  libdbusmenu-gtk3-4 seclists libpcre3 libpcre3-dev
+    elif [ "$distro" = "parrot" ]; then
         # Dependencias para Parrot (backports)
         sudo apt install -y libglib2.0-dev libpango1.0-dev libjson-glib-dev \
             ninja-build libatk-bridge2.0-dev libatk1.0-dev libatspi2.0-dev \
-            libwayland-dev libwebp-dev
+            libwayland-dev libwebp-dev seclists libpcre3 libpcre3-dev
+    else
+        sudo apt install -y gawk curl pip net-tools rsync
     fi
 }
 
@@ -162,6 +164,7 @@ clone_repositories(){
 
 compiling_repositories(){
     local dir=$1
+    local distro=$2
 
     cd ~/github/ble.sh
     make install PREFIX=$HOME/.local
@@ -200,7 +203,9 @@ compiling_repositories(){
     sudo make install
 
     # Install EWW
-    sudo apt remove -y rustc cargo || true
+    if [[ $distro = "parrot" || $distro = "kali" ]]; then
+        sudo apt remove -y rustc cargo || true
+    fi
     if ! command -v rustup &>/dev/null; then
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
         source "$HOME/.cargo/env"
@@ -375,6 +380,9 @@ elif grep -q -i "kali" /etc/os-release; then
 elif grep -q -i "parrot" /etc/os-release; then
     echo -e "${sb}[+] ${y}Distro ${g}Parrot OS${reset}\n"
     distro=parrot
+elif grep -q -i "debian" /etc/os-release; then
+    echo -e "${sb}[+] ${y}Distro ${g}DEBIAN${reset}\n"
+    distro=debian
 else
     echo -e "\n${y}[WARNING] Distribution not detected or identified${reset}"
     grep -i "^name" /etc/os-release | head -1
@@ -396,11 +404,17 @@ backup_repo() {
 execute "Updating system"               "System updated successfully"               system_update
 execute "Installing base packages"      "Base packages installed successfully"      install_packages "$distro"
 execute "Cloning repositories"          "Repositories cloned successfully"          clone_repositories
-execute "Compiling repositories"        "Repositories compiled successfully"        compiling_repositories "$dir"
+execute "Compiling repositories"        "Repositories compiled successfully"        compiling_repositories "$dir" "$distro"
 execute "Configuring PulseAudio"        "PulseAudio configured successfully"        config_pulseaudio
 execute "Installing Neovim"             "Neovim installed successfully"             install_neovim
 execute "Applying theme configuration"  "Theme configuration applied successfully"  themes_config "$dir" "$distro"
 execute "Saving backup of repo"         "Backup saved to ~/.BSPWM successfully"     backup_repo
 execute "Updating system"               "System updated successfully"               system_update
+
+if [[ $distro = "debian" ]]; then
+    sudo apt install lightdm xorg -y
+    sudo systemctl enable --now lightdm
+    sudo chsh -s /usr/bin/zsh root
+fi
 
 echo -e "\n${g}[✔] ${sb}BSPWM ${y}installed successfully${reset}\n"
