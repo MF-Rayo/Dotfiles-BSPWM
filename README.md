@@ -1,69 +1,96 @@
-## Dotfiles BSPWM
+# Dotfiles & BSPWM Installer for Debian
 
-A fully customized BSPWM desktop environment and auto-installer designed for **Debian-based distributions running X11**. 
+```bash
+                              ╭───────────── r4yx
+                              │ System Information
+         _,met$$$$$gg.        │  󰍹 OS  Debian GNU/Linux 13 (trixie) x86_64
+      ,g$$$$$$$$$$$$$$$P.     │  󰒋 Kernel  Linux 6.12.100+deb13-amd64
+    ,g$$P""       """Y$$.".   │  󰅐 Uptime  3 mins
+   ,$$P'              `$$$.   │  󰏖 Packages  2329
+ ',$$P       ,ggs.     `$$b:  │
+ `d$$'     ,$P"'   .    $$$   │ Desktop Environment
+  $$P      d$'     ,    $$P   │  󱂬 WM  LG3D (X11)
+  $$:      $$.   -    ,d$$'   │  󰞷 Shell  zsh 5.9
+  $$;      Y$b._   _,d$P'     │
+  Y$$.    `.`"Y$$$$P"'        │
+  `$$b      "-.__             │ Hardware Information
+   `Y$$b                      │  󰻠 CPU
+    `Y$$.                     │  󰢮 GPU 
+      `$$b.                   │  󰍛 Memory  807.73 MiB / 5.66 GiB (14%)
+        `Y$$b.                │  󰋊 Disk (/)  10.21 GiB / 92.83 GiB (11%) - ext4
+          `"Y$b._             │
+              `""""           │  ● ● ● ● ● ● ● ●
+                              ╰───────────────────────────────╯
+```
 
-While specifically tailored and optimized for penetration testing distros like **Parrot OS** and **Kali Linux**, this setup can easily be adapted for any other Debian-based distribution running an X11 display server with minimal tweaks.
+An automated installation script to deploy a fully customized BSPWM desktop environment. This setup includes a choice of two shells, attractive desktop widgets, keyboard shortcuts, and dynamic color extraction from wallpapers on Debian based distributions.
 
 ## Table of Contents
 
-- [Install](#install)
+- [Features](#features)
+- [Installation & Setup](#install)
+- [Compatibility](#compatibility)
 - [Themes](#themes)
-- [Bars](#bars)
+- [Rofi](#rofi)
 - [Keybindings](#shortcuts)
 - [Api Keys](#apikey)
 - [Virtual Machine Setup](#tips)
+- [Credits & External Resources](#credits)
 
 ---
+<a name="features"></a>
+## Features
 
-## Credits & External Resources
-
-This project integrates tools, configurations, and inspiration from several open-source repositories. Visit the original projects below to learn more about their setup and inner workings:
-
-### Base Inspiration & Configurations
-* **[gh0stzk/dotfiles](https://github.com/gh0stzk/dotfiles):** Primary inspiration for adapting the **Polybar** and **EWW** configurations, as well as the design architecture for the theme, wallpaper, and bar selectors.
-* **[adi1090x/polybar-themes](https://github.com/adi1090x/polybar-themes):** Source for various Polybar layouts and theme designs.
-* **[adi1090x/rofi](https://github.com/adi1090x/rofi):** Source for Rofi themes and menu styles.
-
----
-
-### Core Tools & Dependencies
-* **[polybar/polybar](https://github.com/polybar/polybar):** Fast and easy-to-use status bar.
-* **[elkowar/eww](https://github.com/elkowar/eww):** ElKowar's Wacky Widgets for custom desktop popups and widgets.
-* **[yshui/picom](https://github.com/yshui/picom):** X compositor for transparency, animations, and shadows.
-* **[karlstav/cava](https://github.com/karlstav/cava):** Console-based Audio Visualizer for ALSA / PulseAudio / PipeWire.
-* **[ujjwal96/xwinwrap](https://github.com/ujjwal96/xwinwrap):** Utility to allow applications/animated wallpapers as desktop backgrounds.
-* **[Raymo111/i3lock-color](https://github.com/Raymo111/i3lock-color):** Feature-rich screen locker with customization support.
-* **[vinceliuice/Qogir-icon-theme](https://github.com/vinceliuice/Qogir-icon-theme):** Modern icon theme for Linux desktops.
-* **[romkatv/powerlevel10k](https://github.com/romkatv/powerlevel10k):** Fast and feature-packed Zsh theme (configured for both standard users and root).
-* **[akinomyoga/ble.sh](https://github.com/akinomyoga/ble.sh):** Bash Line Editor for syntax highlighting and enhanced autocompletion.
+*   **Dual Shell Support:** Interactive choice between **Zsh + Powerlevel10k** or a highly customized **Bashrc**.
+*   **Terminal:** Powered by **Kitty** for GPU-accelerated performance and layout splits.
+*   **Status Bars & Widgets:** Lightweight **Polybar** navigation combined with beautiful **Eww** bars.
+*   **Compositor:** Smooth animations and blur effects using an optimized **Picom** fork.
+*   **App Launcher:** Custom **Rofi** menus for application launching, power management, and theme swapping.
+*   **Lockscreen:** Secure and blurred locking mechanism via **i3lock**.
+*   **Live Wallpapers:** Animated desktop background support using **XWinWrap** and **Feh**.
 
 ---
 
 <a name="install"></a>
 ## Installation & Setup
 
-Clone the repository and run the automated installation script:
+Run the automated script to install core components, and custom configuration files. 
 
 ```bash
-git clone https://github.com/MF-Rayo/Dotfiles-BSPWM.git
-```
+# Clone the repository
+git clone https://github.com/MF-Rayo/bspwm-dotfiles-debian.git
 
-```bash
-cd Dotfiles-BSPWM && chmod +x Installer.sh
-```
+# Enter the directory and grant execution permissions
+cd bspwm-dotfiles-debian && chmod +x Installer.sh
 
-```bash
+# Run the installer
 ./Installer.sh
 ```
+
+---
+
+<a name="compatibility"></a>
+## Compatibility
+
+Tested and fully supported on clean installations of the following rolling and stable bases:
+
+### Debian
+<img width="1366" height="768" alt="Debian BSPWM Setup" src="https://github.com/user-attachments/assets/bfa4bf49-7872-4906-be71-fa6d73d31b55" />
+
+### Parrot OS
+<img width="1366" height="768" alt="Image" src="https://github.com/user-attachments/assets/8789fc63-d7df-4556-8d11-8feef97a2f77" />
+
+### Kali Linux
+<img width="1366" height="768" alt="Kali Linux BSPWM Setup" src="https://github.com/user-attachments/assets/8295adf5-2bac-4810-a42d-714411cd80a9" />
 
 ---
 
 <a name="themes"></a>
 ## Themes
 
-Here are the built-in color schemes included in this configuration:
+Switch between built-in color schemes directly through the Rofi selector interface:
 
-| Theme |
+| Themes |
 | :---: |
 | **Nord** <br> <img width="100%" alt="Nord Theme" src="https://github.com/user-attachments/assets/3c526f3a-5b0c-4be7-83d1-3408e15701a7" /> |
 | **Purple** <br> <img width="100%" alt="Purple Theme" src="https://github.com/user-attachments/assets/d4fcf6de-c3c5-4a17-8517-fe21928cc02d" /> |
@@ -75,32 +102,115 @@ Here are the built-in color schemes included in this configuration:
 | **White** <br> <img width="100%" alt="White Theme" src="https://github.com/user-attachments/assets/c2efdb6a-1938-47f5-b197-a133fe735402" /> |
 | **ZeroColor** <br> <img width="100%" alt="ZeroColor Theme" src="https://github.com/user-attachments/assets/2951f0da-cebc-4211-a539-756fbab0b81e" /> |
 
-### Demo
+> [!NOTE]
+> The **ZeroColor** theme instantly extracts palette colors from your active wallpaper using [pywal16](https://github.com/eylles/pywal16).
 
 <video width="100%" height="auto" src="https://github.com/user-attachments/assets/66e23de6-dd6f-401b-9d77-880d7111c642"></video>
----
-
-<a name="bars"></a>
-## Bars
-
-This setup offers modular status bars powered by **Polybar** and **EWW (ElKowar's Wacky Widgets)** to display key system info, workspace indicators, and system metrics. 
-
-Both configurations are highly customizable, allowing you to add, edit, or remove widgets according to your preferences.
 
 ---
 
-### Polybar
-Polybar handles the main top/bottom panel with multiple theme layouts.
-* **Configuration Path:** `~/.config/polybar/themes/`
-* **Selector:** Use `Super` + `Ctrl` + `p` to open the launcher and switch Polybar styles on the fly.
+<a name="rofi"></a>
+## Rofi
 
-### EWW (ElKowar's Wacky Widgets)
-EWW is used for modern, stand-alone widgets and custom desktop popups.
-* **Configuration Path:** `~/.config/eww/`
-
----
+**Selector:** Use `Super` + `Ctrl` + `p` to open the launcher and switch Polybar styles on the fly.
 
 <img width="1917" height="1078" alt="Image" src="https://github.com/user-attachments/assets/341c9286-78d1-40b5-bdb1-96552d52c35c" />
+
+**Selector:** Use `Super` + `Ctrl` + `t` to open the launcher and switch Themes styles on the fly.
+
+<img width="1366" height="768" alt="Image" src="https://github.com/user-attachments/assets/02498d4b-14b3-46fa-8d82-608e9bc44886" />
+
+**Selector:** Use `Super` + `Ctrl` + `w` to open the launcher and switch Wallpaper styles on the fly.
+
+<img width="1153" height="709" alt="Image" src="https://github.com/user-attachments/assets/7d5ebbef-0da1-45e1-8a31-2cb88898e38f" />
+
+**Selector:** Use `Super` + `D` to open the launcher and launch apps on.
+
+<img width="1362" height="572" alt="Image" src="https://github.com/user-attachments/assets/d52205bb-ce5a-4234-8a1d-61c5365f5b28" />
+
+**Selector:** Use `Super` + `M` to open the music preview.
+
+<img width="968" height="607" alt="Image" src="https://github.com/user-attachments/assets/4155c1eb-e7a1-4921-abb8-c64e21560650" />
+
+---
+
+<a name="shortcuts"></a>
+# Keybindings & Shortcuts 
+---
+
+This guide lists all configured keybindings managed by `sxhkd` for **BSPWM** and system shortcuts.
+
+### Applications & Custom Scripts
+
+| Keybinding | Action / Command | Description |
+| :--- | :--- | :--- |
+| `Super` + `Return` | `kitty` | Open Terminal (with software GL) |
+| `Alt` + `s` | `ScratchPad.sh` | Toggle Scratchpad Window |
+| `Shift` + `l` | `i3lock-everblush` | Lock Screen |
+| `Super` + `Shift` + `f` | `firefox` | Launch Firefox Web Browser |
+| `Super` + `Shift` + `b` | `burpsuite` | Launch Burp Suite |
+| `F1` | `copy_ip.sh --myip` | Copy Local IP Address to Clipboard |
+| `F2` | `copy_ip.sh --target` | Copy Target IP Address to Clipboard |
+| `Super` + `k` | `keyboard.sh` | Switch Keyboard Layout / Settings |
+| `Alt` + `r` | `pkill -USR1 -x sxhkd` | Reload `sxhkd` Configuration |
+
+### Rofi Menus & Pickers
+
+| Keybinding | Action / Command | Description |
+| :--- | :--- | :--- |
+| `Super` + `d` | `apps.rasi` | Application Launcher |
+| `Super` + `p` | `power` | Power Menu (Shutdown, Reboot, Lock) |
+| `Alt` + `m` | `player.sh` | Music Player Control Menu |
+| `Alt` + `n` | `notes` | Quick Notes Menu |
+| `Print` | `screenshot` | Take Screenshot Menu |
+| `Super` + `Ctrl` + `t` | `ThemeSelect` | Rofi Theme Selector |
+| `Super` + `Ctrl` + `w` | `WallSelect` | Wallpaper Selector |
+| `Super` + `Ctrl` + `p` | `PolySelect` | Polybar Theme Selector |
+| `Super` + `Ctrl` + `d` | `download_wallpaper.sh` | Download Wallpaper Script |
+
+### Window Management (BSPWM)
+
+| Keybinding | Action / Command | Description |
+| :--- | :--- | :--- |
+| `Super` + `Alt` + `r` | `bspc wm -r` | Restart BSPWM |
+| `Super` + `Alt` + `q` | `bspc quit` | Quit BSPWM |
+| `Super` + `q` | `bspc node -c` | Close Window |
+| `Super` + `Shift` + `q` | `bspc node -k` | Kill Window |
+| `Super` + `m` | `bspc desktop -l next` | Toggle Layout (Tiled / Monocle) |
+| `Super` + `g` | `bspc node -s biggest.window` | Swap current window with biggest |
+| `Super` + `t` | State: `tiled` | Set Window to Tiled |
+| `Super` + `Shift` + `t` | State: `pseudo_tiled` | Set Window to Pseudo-Tiled |
+| `Super` + `s` | State: `floating` | Set Window to Floating |
+| `Super` + `f` | State: `fullscreen` | Toggle Fullscreen |
+| `Super` + `Ctrl` + `m` | Flag: `marked` | Toggle Marked Flag |
+| `Super` + `Ctrl` + `x` | Flag: `locked` | Toggle Locked Flag |
+| `Super` + `Ctrl` + `y` | Flag: `sticky` | Toggle Sticky Flag |
+| `Super` + `Ctrl` + `z` | Flag: `private` | Toggle Private Flag |
+
+### Focus, Navigation & Resizing
+
+| Keybinding | Action / Command | Description |
+| :--- | :--- | :--- |
+| `Super` + `← ↓ ↑ →` | Focus direction | Focus window in given direction |
+| `Super` + `Shift` + `← ↓ ↑ →` | Swap direction | Swap window in given direction |
+| `Super` + `1-0` | Desktop `1-10` | Switch to Desktop N |
+| `Super` + `Shift` + `1-0` | Move to Desktop | Send window to Desktop N |
+| `Super` + `Tab` / `` ` `` | Desktop `last` | Switch to last used desktop/node |
+| `Super` + `Alt` + `← ↓ ↑ →` | Resize outward | Expand window size |
+| `Super` + `Alt` + `Shift` + `← ↓ ↑ →` | Resize inward | Contract window size |
+| `Super` + `Ctrl` + `← ↓ ↑ →` | Move floating | Move floating window position |
+
+### Media & Volume Controls
+
+| Keybinding | Command | Description |
+| :--- | :--- | :--- |
+| `XF86AudioRaiseVolume` | `pactl set-sink-volume +1%` | Volume Up (+1%) |
+| `XF86AudioLowerVolume` | `pactl set-sink-volume -1%` | Volume Down (-1%) |
+| `XF86AudioMute` | `pactl set-sink-mute toggle` | Mute / Unmute Audio |
+| `XF86AudioNext` | `playerctl next` | Next Track |
+| `XF86AudioPrev` | `playerctl previous` | Previous Track |
+| `XF86AudioPlay` | `playerctl play-pause` | Play / Pause |
+
 
 ---
 
@@ -138,92 +248,6 @@ nvim ~/.config/theme/config.json
   "city": "YOUR_CITY_NAME"
 }
 ```
----
-
-<a name="shortcuts"></a>
-# Keybindings & Shortcuts 
----
-
-This guide lists all configured keybindings managed by `sxhkd` for **BSPWM** and system shortcuts.
-
-### Applications & Custom Scripts
-
-| Keybinding | Action / Command | Description |
-| :--- | :--- | :--- |
-| `Super` + `Return` | `kitty` | Open Terminal (with software GL) |
-| `Alt` + `s` | `ScratchPad.sh` | Toggle Scratchpad Window |
-| `Shift` + `l` | `i3lock-everblush` | Lock Screen |
-| `Super` + `Shift` + `f` | `firefox` | Launch Firefox Web Browser |
-| `Super` + `Shift` + `b` | `burpsuite` | Launch Burp Suite |
-| `F1` | `copy_ip.sh --myip` | Copy Local IP Address to Clipboard |
-| `F2` | `copy_ip.sh --target` | Copy Target IP Address to Clipboard |
-| `Super` + `k` | `keyboard.sh` | Switch Keyboard Layout / Settings |
-| `Alt` + `r` | `pkill -USR1 -x sxhkd` | Reload `sxhkd` Configuration |
-
----
-
-### Rofi Menus & Pickers
-
-| Keybinding | Action / Command | Description |
-| :--- | :--- | :--- |
-| `Super` + `d` | `apps.rasi` | Application Launcher |
-| `Super` + `p` | `power` | Power Menu (Shutdown, Reboot, Lock) |
-| `Alt` + `m` | `player.sh` | Music Player Control Menu |
-| `Alt` + `n` | `notes` | Quick Notes Menu |
-| `Print` | `screenshot` | Take Screenshot Menu |
-| `Super` + `Ctrl` + `t` | `ThemeSelect` | Rofi Theme Selector |
-| `Super` + `Ctrl` + `w` | `WallSelect` | Wallpaper Selector |
-| `Super` + `Ctrl` + `p` | `PolySelect` | Polybar Theme Selector |
-| `Super` + `Ctrl` + `d` | `download_wallpaper.sh` | Download Wallpaper Script |
-
----
-
-### Window Management (BSPWM)
-
-| Keybinding | Action / Command | Description |
-| :--- | :--- | :--- |
-| `Super` + `Alt` + `r` | `bspc wm -r` | Restart BSPWM |
-| `Super` + `Alt` + `q` | `bspc quit` | Quit BSPWM |
-| `Super` + `q` | `bspc node -c` | Close Window |
-| `Super` + `Shift` + `q` | `bspc node -k` | Kill Window |
-| `Super` + `m` | `bspc desktop -l next` | Toggle Layout (Tiled / Monocle) |
-| `Super` + `g` | `bspc node -s biggest.window` | Swap current window with biggest |
-| `Super` + `t` | State: `tiled` | Set Window to Tiled |
-| `Super` + `Shift` + `t` | State: `pseudo_tiled` | Set Window to Pseudo-Tiled |
-| `Super` + `s` | State: `floating` | Set Window to Floating |
-| `Super` + `f` | State: `fullscreen` | Toggle Fullscreen |
-| `Super` + `Ctrl` + `m` | Flag: `marked` | Toggle Marked Flag |
-| `Super` + `Ctrl` + `x` | Flag: `locked` | Toggle Locked Flag |
-| `Super` + `Ctrl` + `y` | Flag: `sticky` | Toggle Sticky Flag |
-| `Super` + `Ctrl` + `z` | Flag: `private` | Toggle Private Flag |
-
----
-
-### Focus, Navigation & Resizing
-
-| Keybinding | Action / Command | Description |
-| :--- | :--- | :--- |
-| `Super` + `← ↓ ↑ →` | Focus direction | Focus window in given direction |
-| `Super` + `Shift` + `← ↓ ↑ →` | Swap direction | Swap window in given direction |
-| `Super` + `1-0` | Desktop `1-10` | Switch to Desktop N |
-| `Super` + `Shift` + `1-0` | Move to Desktop | Send window to Desktop N |
-| `Super` + `Tab` / `` ` `` | Desktop `last` | Switch to last used desktop/node |
-| `Super` + `Alt` + `← ↓ ↑ →` | Resize outward | Expand window size |
-| `Super` + `Alt` + `Shift` + `← ↓ ↑ →` | Resize inward | Contract window size |
-| `Super` + `Ctrl` + `← ↓ ↑ →` | Move floating | Move floating window position |
-
----
-
-### Media & Volume Controls
-
-| Keybinding | Command | Description |
-| :--- | :--- | :--- |
-| `XF86AudioRaiseVolume` | `pactl set-sink-volume +1%` | Volume Up (+1%) |
-| `XF86AudioLowerVolume` | `pactl set-sink-volume -1%` | Volume Down (-1%) |
-| `XF86AudioMute` | `pactl set-sink-mute toggle` | Mute / Unmute Audio |
-| `XF86AudioNext` | `playerctl next` | Next Track |
-| `XF86AudioPrev` | `playerctl previous` | Previous Track |
-| `XF86AudioPlay` | `playerctl play-pause` | Play / Pause |
 
 ----
 <a name="tips"></a>
@@ -262,3 +286,27 @@ sound.startConnected = "FALSE"
 sound.record.enable = "FALSE"
 sound.record.autodetect = "FALSE"
 ```
+
+---
+<a name="credits"></a>
+## Credits & External Resources
+
+This project integrates tools, configurations, and inspiration from several open-source repositories. Visit the original projects below to learn more about their setup and inner workings:
+
+### Base Inspiration & Configurations
+* **[gh0stzk/dotfiles](https://github.com/gh0stzk/dotfiles):** Primary inspiration for adapting the **Polybar** and **EWW** configurations, as well as the design architecture for the theme, wallpaper, and bar selectors.
+* **[adi1090x/polybar-themes](https://github.com/adi1090x/polybar-themes):** Source for various Polybar layouts and theme designs.
+* **[adi1090x/rofi](https://github.com/adi1090x/rofi):** Source for Rofi themes and menu styles.
+
+---
+
+### Core Tools & Dependencies
+* **[polybar/polybar](https://github.com/polybar/polybar):** Fast and easy-to-use status bar.
+* **[elkowar/eww](https://github.com/elkowar/eww):** ElKowar's Wacky Widgets for custom desktop popups and widgets.
+* **[yshui/picom](https://github.com/yshui/picom):** X compositor for transparency, animations, and shadows.
+* **[karlstav/cava](https://github.com/karlstav/cava):** Console-based Audio Visualizer for ALSA / PulseAudio / PipeWire.
+* **[ujjwal96/xwinwrap](https://github.com/ujjwal96/xwinwrap):** Utility to allow applications/animated wallpapers as desktop backgrounds.
+* **[Raymo111/i3lock-color](https://github.com/Raymo111/i3lock-color):** Feature-rich screen locker with customization support.
+* **[vinceliuice/Qogir-icon-theme](https://github.com/vinceliuice/Qogir-icon-theme):** Modern icon theme for Linux desktops.
+* **[romkatv/powerlevel10k](https://github.com/romkatv/powerlevel10k):** Fast and feature-packed Zsh theme (configured for both standard users and root).
+* **[akinomyoga/ble.sh](https://github.com/akinomyoga/ble.sh):** Bash Line Editor for syntax highlighting and enhanced autocompletion.
