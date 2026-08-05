@@ -3,6 +3,10 @@
 CITY=$(jq -r '.city' "$HOME/.config/theme/config.json")
 API_KEY=$(jq -r '.api.openweather' "$HOME/.config/theme/config.json")
 
+if [[ $API_KEY = "" ]]; then 
+  echo ""
+  exit 0
+fi
 WEATHER=$(curl -s "https://api.openweathermap.org/data/2.5/weather?q=${CITY}&units=metric&appid=${API_KEY}")
 
 TEMP=$(echo "$WEATHER" | jq ".main.temp" | xargs printf "%.0f")
