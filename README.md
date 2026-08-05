@@ -47,7 +47,7 @@ cd bspwm-dotfiles-debian && chmod +x Installer.sh
 ## Select desktop environment
 
 ### Debian 
-<img width="679" height="284" alt="Image" src="https://github.com/user-attachments/assets/6dbdac85-d051-4516-b969-5b3f6820dbed" />
+<img width="876" height="396" alt="Image" src="https://github.com/user-attachments/assets/f9e6a383-d64c-46cc-a566-a70883b551cc" />
 
 ### Kali Linux
 <img width="634" height="240" alt="Image" src="https://github.com/user-attachments/assets/07c9fb89-7459-4c77-b3e9-cd31d4ca5c63" />
