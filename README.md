@@ -1,28 +1,5 @@
 # Dotfiles & BSPWM Installer for Debian
 
-```bash
-                              ╭───────────── r4yx
-                              │ System Information
-         _,met$$$$$gg.        │  󰍹 OS  Debian GNU/Linux 13 (trixie) x86_64
-      ,g$$$$$$$$$$$$$$$P.     │  󰒋 Kernel  Linux 6.12.100+deb13-amd64
-    ,g$$P""       """Y$$.".   │  󰅐 Uptime  3 mins
-   ,$$P'              `$$$.   │  󰏖 Packages  2329
- ',$$P       ,ggs.     `$$b:  │
- `d$$'     ,$P"'   .    $$$   │ Desktop Environment
-  $$P      d$'     ,    $$P   │  󱂬 WM  LG3D (X11)
-  $$:      $$.   -    ,d$$'   │  󰞷 Shell  zsh 5.9
-  $$;      Y$b._   _,d$P'     │
-  Y$$.    `.`"Y$$$$P"'        │
-  `$$b      "-.__             │ Hardware Information
-   `Y$$b                      │  󰻠 CPU
-    `Y$$.                     │  󰢮 GPU 
-      `$$b.                   │  󰍛 Memory  807.73 MiB / 5.66 GiB (14%)
-        `Y$$b.                │  󰋊 Disk (/)  10.21 GiB / 92.83 GiB (11%) - ext4
-          `"Y$b._             │
-              `""""           │  ● ● ● ● ● ● ● ●
-                              ╰───────────────────────────────╯
-```
-
 An automated installation script to deploy a fully customized BSPWM desktop environment. This setup includes a choice of two shells, attractive desktop widgets, keyboard shortcuts, and dynamic color extraction from wallpapers on Debian based distributions.
 
 ## Table of Contents
